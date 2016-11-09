@@ -6,14 +6,14 @@ package com.todo.controller;
 
 
 import java.io.IOException;
-
-
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 import java.util.UUID;
 
 import javax.jdo.PersistenceManager;
+import javax.servlet.ServletException;
 import javax.servlet.http.*;
 
 import org.springframework.stereotype.Controller;
@@ -52,11 +52,22 @@ public class LoginController {
 	      
    }
 	 @RequestMapping(value = "/loginvalidate", method = RequestMethod.POST)
-	 public String validatelogin(HttpServletRequest request, ModelMap model) {
-
+	 public String validatelogin(HttpServletRequest request,HttpServletResponse response, ModelMap model) throws IOException, ServletException {
 	 String email = request.getParameter("email");
 
 	 String password= request.getParameter("password");
+	 
+	 
+	 if(!(email.equals("admin") && password.equals("admin"))){
+		 PrintWriter out = response.getWriter(); 
+		 response.setContentType("text/html"); 
+		 out.println("<script type=\"text/javascript\">"); 
+		 out.println("alert('the session did time out, please reconnect');"); 
+		 out.println("logout();");
+		 out.println("</script>"); 
+		 request.getRequestDispatcher("hello").forward(request, response); 
+	 }else{
+	 
 
 	 System.out.println(email+password);
 	 PersistenceManager pm = PMF.get().getPersistenceManager();
@@ -68,30 +79,38 @@ public class LoginController {
 
 	
 	 pm.makePersistent(c);
+	 return "list";
 
      
-	 javax.jdo.Query q = pm.newQuery(Pojo.class);
-	 q.setFilter("email == emailParameter && password==passwordParameter");
-	 q.declareParameters("String emailParameter,String passwordParameter");
-	
-	 
-	List<Pojo> results = (List<Pojo>) q.execute(email,password);
-	 System.out.println("hello"+results);
-	 
-	 if(results.isEmpty())
-		
-	 {
+//	 javax.jdo.Query q = pm.newQuery(Pojo.class);
+//	 q.setFilter("email == emailParameter && password==passwordParameter");
+//	 q.declareParameters("String emailParameter,String passwordParameter");
+//	
+//	 
+//	 List<Pojo> results = (List<Pojo>) q.execute(email,password);
+//	 System.out.println("hello"+results);
+//	 
+//
+//if(!results.isEmpty())
+//{
+//	 if(email.equals("admin@admin.com"))
+//	 {
+//   System.out.println("not");
+//   return "/list.jsp";
+//	}
+//	 else
+//	 {
+//		 return "welcome";
+//	 }
+//}
+//else
+//{
+//	 return "login";
+//
+//}
+	 }
+	return null;	 }
 
-	 System.out.println("purnima");
-	 return "list";
-	 }
-	 else
-	 {
-	 System.out.println("not");
-	 return "list";
-	 
-	 }
-	 }
 	
 	 	 @RequestMapping(value = "/addsave", method = RequestMethod.POST)
 	 	@ResponseBody	
@@ -127,7 +146,7 @@ public class LoginController {
 	 	 @RequestMapping(value = "/retrieve", method = RequestMethod.GET)
 	 		@ResponseBody	
 	 		 public String retrieve(HttpServletRequest request) {
-	 				System.out.println("method call");
+	 				System.out.println("retreived data");
 	 				PersistenceManager pm = PMF.get().getPersistenceManager();
 	 				Query q = pm.newQuery(ToDoList.class);
 	 				List<ToDoList> results =  (List<ToDoList>) q.execute();
@@ -205,7 +224,7 @@ public class LoginController {
 	 	
 
 	 	// return to list
-	 	return "hello";
+	 	return "list";
 
 	 	}
 

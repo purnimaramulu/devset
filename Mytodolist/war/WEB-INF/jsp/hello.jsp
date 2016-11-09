@@ -49,7 +49,9 @@ function checkEmail() {
 <style>
 @import url(http://fonts.googleapis.com/css?family=Bree+Serif);
 
-<style>
+/*******************
+SELECTION STYLING
+*******************/
 
 ::selection {
 	color: #fff;

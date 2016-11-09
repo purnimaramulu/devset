@@ -2,9 +2,13 @@
 package com.todo.controller;
 
 import javax.jdo.annotations.IdGeneratorStrategy;
+
 import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.Persistent;
 import javax.jdo.annotations.PrimaryKey;
+import javax.validation.constraints.Size;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 import com.google.appengine.api.datastore.Key;
 
@@ -18,6 +22,7 @@ private Key key;
 
 
 @Persistent
+
 private String password;
 
 
@@ -29,7 +34,11 @@ private String passwordagain;
 
 @Persistent
 private String name;
+
+
+@NotNull(message = "The above field must not be blank.")
 @Persistent
+
 private String email;
 
 
