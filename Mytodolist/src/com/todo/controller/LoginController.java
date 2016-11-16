@@ -14,7 +14,7 @@ import javax.jdo.Query;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
+import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -41,12 +41,17 @@ public class LoginController {
 
 	
 	@RequestMapping(value = "/loginvalidate", method = RequestMethod.POST)
-	public String validatelogin(HttpServletRequest request, HttpServletResponse response, ModelMap model)
+	public String validatelogin(HttpServletRequest request, HttpServletResponse response,ModelMap model)
 			throws IOException, ServletException {
 
 		String email = request.getParameter("email");
 
 		String password = request.getParameter("password");
+		HttpSession session = request.getSession(true);
+		session.setAttribute("email", email);
+		session.setAttribute("password", password);
+
+
 
 		if ( email == null || email.isEmpty() || password == null || password.isEmpty()) {
 			
@@ -76,36 +81,46 @@ public class LoginController {
 	}
 
 	@RequestMapping(value = "/addsave", method = RequestMethod.POST)
-	@ResponseBody
-	public String save(HttpServletRequest request, HttpServletResponse response) throws IOException {
+	
+	public @ResponseBody String save(HttpServletRequest request, HttpServletResponse response) throws IOException {
 
+		
+		
+		Gson json = new Gson();
+		
 		String data = (String) request.getParameter("data");
 		System.out.println(" data" + data);
 
-		URL obj = new URL("http://localhost:8080/");
-		URLConnection conn = obj.openConnection();
-
-		//get all headers
-		Map<String, List<String>> map = conn.getHeaderFields();
-		for (Map.Entry<String, List<String>> entry : map.entrySet()) {
-			System.out.println("Key : " + entry.getKey());
-		}
-
-		//get header by 'key'
-		String server = conn.getHeaderField("Server");
+//		URL obj = new URL("http://localhost:8080/");
+//		URLConnection conn = obj.openConnection();
+//
+//		//get all headers
+//		Map<String, List<String>> map = conn.getHeaderFields();
+//		for (Map.Entry<String, List<String>> entry : map.entrySet()) {
+//			System.out.println("Key : " + entry.getKey());
+//		}
+//
+//		//get header by 'key'
+//		String server = conn.getHeaderField("Server");
+//		
 		
 		
-
+	       
+	       
 		ToDoList d = new ToDoList();
 		d.setData(data);
 
 		PersistenceManager pm = PMF.get().getPersistenceManager();
 		try {
+			
 			pm.makePersistent(d);
 		} finally {
 			pm.close();
 		}
-		return data;
+		
+		System.out.println(json.toJson(d));
+	       
+	       return json.toJson(d);
 	}
 
 	@RequestMapping(value = "/retrieve", method = RequestMethod.GET)
@@ -217,5 +232,11 @@ public class LoginController {
 //		return "deleted";
 //
 //	}
-
+	 @RequestMapping(value="/logout", method = RequestMethod.POST)
+     public String logout(HttpServletRequest request,HttpSession session ) {
+		 System.out.println("sessions");
+		 
+        session.invalidate();
+        return "hello";
+     }
 }

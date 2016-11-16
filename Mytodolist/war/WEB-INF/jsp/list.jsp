@@ -12,26 +12,54 @@
 <div class="navbar navbar-inverse" >
     
     <div class="nav navbar-nav ">
-    <form  name="logout" method="post"  action="/logout" >
-      <li><a href="#"><span type="submit"class="glyphicon glyphicon-user"></span> logout</a></li>
-      <li><a href="#"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+    <form  name="logout" method="post"  action="/logout">
+     <button name="subject" type="submit" value="logout" class="button">logout</button>
     </form></div>
     
 </div>
   
 </head>
-   <%
-		if (session != null) {
-			if (session.getAttribute("email") != null) {
-				String name = (String) session.getAttribute("email");
-
-				out.print("Hello, " + name + "  Welcome to ur Profile");
-			} else {
-				response.sendRedirect("../list.jsp");
-			}
-		}
-	%>
+ 
 <style>
+
+.button {
+    display: inline-block;
+    border-radius: 1px;
+    background-color: #f4511e;
+    border: none;
+    color: #FFFFFF;
+    text-align: center;
+    font-size: 20px;
+    padding: 9px;
+    width: 83px;
+    transition: all 0.5s;
+    cursor: pointer;
+    margin: 5px;
+}
+.button span {
+  cursor: pointer;
+  display: inline-block;
+  position: relative;
+  transition: 0.5s;
+}
+
+.button span:after {
+  content: '»';
+  position: absolute;
+  opacity: 0;
+  top: 0;
+  right: -20px;
+  transition: 0.5s;
+}
+
+.button:hover span {
+  padding-right: 25px;
+}
+
+.button:hover span:after {
+  opacity: 1;
+  right: 0;
+}
 
 .navtodo{
 padding: 50px 30px 50px 80px;
@@ -73,7 +101,7 @@ ul.todo-list {
 h5 {
 	margin: 0px;
 	padding: 0px;
-	    color: black;
+	    color: white;
 	        font-size: 21px;
 	    
 	
@@ -90,6 +118,7 @@ input.inputRecord {
 	height: 50px;
 	width: 350px;
 	font-size: 20px;
+	color:black
 	}
 
 	ul.todo-list{
@@ -141,6 +170,18 @@ input.inputRecord {
   width: 500px;
     margin: auto;
 }
+label {
+    padding: 23px 30px 0px 9px;
+        font-weight: 500;
+    
+}
+button.destroy {
+width:23px 30px 0px 9px;
+}
+span.delete {
+    margin-top: 21px;
+    padding-left: 299px;
+}
 </style>
 
 
@@ -177,7 +218,7 @@ input.inputRecord {
 		                    var object = jsonData[i]; //You are in the current object
 		                    htmlElement += '<li>'
 		                    +'<div id='+object.key+' class="elements"><h5>'+object.data+'</div>'
-		                    +'<div class='+object.key+' myVal='+object.key+' id="input" hidden><input value='+object.data+' class="inputRecord"  type="text"/></div>'
+		                    +'<div class='+object.key+' myVal='+object.key+' id="input" hidden><input value='+object.data+' class="inputRecord"  id="record"type="text"/></div>'
 		                    +'<div class="elements-btn"><span  class="destroy" id='+object.key+'>Delete</span></div>'
 		                    +'<div class="elements-btn"><span id='+object.key+' class="editRecord" id='+object.key+'>Edit</span></div>'
 		                    +'</li>';
@@ -185,50 +226,8 @@ input.inputRecord {
 		                }
 						
 					 	$('.todo-list').html(htmlElement);
+					 	commonFunction();
 						
-						$('.destroy').click(function(e){
-							var id=$(e.currentTarget).attr('id');
-						 	$.ajax({
-								url:"/destroy",
-								type:"POST",
-								data:"key="+id,
-								success:function(data){
-									$(e.currentTarget).parent().parent().remove();
-								}
-							})
-				 			});
-						
-						$('.editRecord').click(function(e){
-							var id2=$(e.currentTarget).attr('id');
-							$("#"+id2).hide();
-							$("."+id2).show();
-						});
-						
-						$('.inputRecord').keypress(function(e) {
-							var keycode = (event.keyCode ? event.keyCode : event.which);
-							if(keycode == "13"){
-							
-							  var data = {};
-							
-							  data.key = $(e.currentTarget).parent().attr('myVal');
-							  data.data = $(".inputRecord").val();
- 								
- 							 console.log(data);
-							   
-							   $.ajax({
-									url:"/update",
-									type:"POST",
-									contentType: "application/json",
-									data:JSON.stringify(data),
-									success:function(data){
-										alert(data);
-
-									}
-							   
-							});  
-							}
-					    
-				});
 					
 				}
 				
@@ -251,9 +250,18 @@ input.inputRecord {
 				//	});
 			
 				/* }}); */
-			$( ".toDoInput" ).keypress(function(event) {
+		
 				
 			
+			});
+			
+		
+		
+		
+		
+		$( ".toDoInput" ).keypress(function(event) {
+				
+				
 				var keycode = (event.keyCode ? event.keyCode : event.which);
 				if(keycode == "13"){
 				
@@ -264,16 +272,25 @@ input.inputRecord {
 						url:"/addsave",
 						type:"POST",
 						data:"data="+val,
-						sucess:function(data){
+						success:function(data){
+							console.log("i am here");
+							var myData = JSON.parse(data);
 							alert(data);
-						
+						   var htmlElement = '<li>'
+				                    +'<div id='+myData.key+' class="elements"><h5>'+myData.data+'</div>'
+				                    +'<div class='+myData.key+' myVal='+myData.key+' id="input" hidden><input value='+myData.data+' class="inputRecord"  id="record"type="text"/></div>'
+				                    +'<div class="elements-btn"><span  class="destroy" id='+myData.key+'>Delete</span></div>'
+				                    +'<div class="elements-btn"><span id='+myData.key+' class="editRecord" id='+myData.key+'>Edit</span></div>'
+				                    +'</li>';
+							$('.todo-list').append(htmlElement);
+							$('.toDoInput').val(""); 
+							
+							commonFunction();
 						}
 						
 					});
 					
-					var myList = '<li id='+val+'><label>'+val+'</label><button id='+val+' class="destroy"></button></li>';
-					$('.todo-list').append(myList);
-					$('.toDoInput').val(""); 
+					
 					
 					
 				
@@ -281,12 +298,82 @@ input.inputRecord {
 				}
 				
 				
-				});
-			 
 			
-			});
+				
+				});
 		
-	
+		function commonFunction(){
+			
+			
+			$('.destroy').click(function(e){
+				var id=$(e.currentTarget).attr('id');
+			 	$.ajax({
+					url:"/destroy",
+					type:"POST",
+					data:"key="+id,
+					success:function(data){
+						$(e.currentTarget).parent().parent().remove();
+					}
+				})
+	 			});
+			
+			$('.editRecord').click(function(e){
+				var id2=$(e.currentTarget).attr('id');
+				$("#"+id2).hide();
+				$("."+id2).show();
+			});
+			
+			$('.inputRecord').keypress(function(e) {
+				var keycode = (event.keyCode ? event.keyCode : event.which);
+				if(keycode == "13"){
+				console.log($(e.currentTarget));
+				  var data = {};
+				
+				  data.key = $(e.currentTarget).parent().attr('myVal');
+				  data.data = $(e.currentTarget).val();
+				 
+				  $(this).hide();
+				  $('#'+data.key).show();
+				  $('#'+data.key+'> h5').text(data.data);
+				   
+				   $.ajax({
+						url:"/update",
+						type:"POST",
+						contentType: "application/json",
+						data:JSON.stringify(data),
+						success:function(data){
+							 console.log(JSON.parse(data));
+							 var myVal = JSON.parse(data);
+							 var myKey = myVal.key;
+							 
+							
+							 
+							/*  var val = $("#record").val();
+							 
+							 var myList = '<li id='+val+'><label>'+val+'</label><button id='+val+' class="destroy"></button></li>';
+							$('.todo-list').append(myList); */
+							/* $('.'+myKey+' >input').hide();
+							$('#'+myKey+' h5').html(myVal.data);
+							$('#'+myKey+'').show(); */
+							 
+							
+							 
+								
+							
+								
+							
+						}
+				   
+				});  
+				}
+		    
+	});
+			
+			
+			
+		}
+		
+		
 	
 	</script>
 </body>

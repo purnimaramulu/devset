@@ -12,9 +12,8 @@
 <div class="navbar navbar-inverse" >
     
     <div class="nav navbar-nav ">
-    <form  name="logout" method="post"  action="/logout" >
-      <li><a href="#"><span type="submit"class="glyphicon glyphicon-user"></span> logout</a></li>
-      <li><a href="#"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+    <form  name="logout" method="post"  action="/logout">
+      <li> <input  type="submit" name="logout"class="glyphicon glyphicon-user"></input></li>
     </form></div>
     
 </div>
@@ -188,70 +187,8 @@ span.delete {
 		                }
 						
 					 	$('.todo-list').html(htmlElement);
+					 	commonFunction();
 						
-						$('.destroy').click(function(e){
-							var id=$(e.currentTarget).attr('id');
-						 	$.ajax({
-								url:"/destroy",
-								type:"POST",
-								data:"key="+id,
-								success:function(data){
-									$(e.currentTarget).parent().parent().remove();
-								}
-							})
-				 			});
-						
-						$('.editRecord').click(function(e){
-							var id2=$(e.currentTarget).attr('id');
-							$("#"+id2).hide();
-							$("."+id2).show();
-						});
-						
-						$('.inputRecord').keypress(function(e) {
-							var keycode = (event.keyCode ? event.keyCode : event.which);
-							if(keycode == "13"){
-							console.log($(e.currentTarget));
-							  var data = {};
-							
-							  data.key = $(e.currentTarget).parent().attr('myVal');
-							  data.data = $(e.currentTarget).val();
-							 
-							  $(this).hide();
-							  $('#'+data.key).show();
-							  $('#'+data.key+'> h5').text(data.data);
-							   
-							   $.ajax({
-									url:"/update",
-									type:"POST",
-									contentType: "application/json",
-									data:JSON.stringify(data),
-									success:function(data){
-										 console.log(JSON.parse(data));
-										 var myVal = JSON.parse(data);
-										 var myKey = myVal.key;
-										 
-										
-										 
-										/*  var val = $("#record").val();
-										 
-										 var myList = '<li id='+val+'><label>'+val+'</label><button id='+val+' class="destroy"></button></li>';
-										$('.todo-list').append(myList); */
-										/* $('.'+myKey+' >input').hide();
-										$('#'+myKey+' h5').html(myVal.data);
-										$('#'+myKey+'').show(); */
-										 
-										
-										 
-											
-										
-											
-										
-									}
-							   
-							});  
-							}
-					    
-				});
 					
 				}
 				
@@ -296,31 +233,106 @@ span.delete {
 						url:"/addsave",
 						type:"POST",
 						data:"data="+val,
-						sucess:function(data){
+						success:function(data){
+							console.log("i am here");
+							var myData = JSON.parse(data);
 							alert(data);
-						
+						   var htmlElement = '<li>'
+				                    +'<div id='+myData.key+' class="elements"><h5>'+myData.data+'</div>'
+				                    +'<div class='+myData.key+' myVal='+myData.key+' id="input" hidden><input value='+myData.data+' class="inputRecord"  id="record"type="text"/></div>'
+				                    +'<div class="elements-btn"><span  class="destroy" id='+myData.key+'>Delete</span></div>'
+				                    +'<div class="elements-btn"><span id='+myData.key+' class="editRecord" id='+myData.key+'>Edit</span></div>'
+				                    +'</li>';
+							$('.todo-list').append(htmlElement);
+							$('.toDoInput').val(""); 
+							
+							commonFunction();
 						}
 						
 					});
 					
-					var myList = '<li id='+val+'><label>'+val+'</label><span id='+val+' class="editRecord">Edit</span><span id='+val+'  class="delete">Delete</span></li>';
-					$('.todo-list').append(myList);
-					$('.toDoInput').val(""); 
+					
 					
 					
 				
 
 				}
 				
-					$('.delete').click(function(e){
-						alert();
-						$(e.currentTarget).parent().remove();					 
-				   
-				});
 				
 			
 				
 				});
+		
+		function commonFunction(){
+			
+			
+			$('.destroy').click(function(e){
+				var id=$(e.currentTarget).attr('id');
+			 	$.ajax({
+					url:"/destroy",
+					type:"POST",
+					data:"key="+id,
+					success:function(data){
+						$(e.currentTarget).parent().parent().remove();
+					}
+				})
+	 			});
+			
+			$('.editRecord').click(function(e){
+				var id2=$(e.currentTarget).attr('id');
+				$("#"+id2).hide();
+				$("."+id2).show();
+			});
+			
+			$('.inputRecord').keypress(function(e) {
+				var keycode = (event.keyCode ? event.keyCode : event.which);
+				if(keycode == "13"){
+				console.log($(e.currentTarget));
+				  var data = {};
+				
+				  data.key = $(e.currentTarget).parent().attr('myVal');
+				  data.data = $(e.currentTarget).val();
+				 
+				  $(this).hide();
+				  $('#'+data.key).show();
+				  $('#'+data.key+'> h5').text(data.data);
+				   
+				   $.ajax({
+						url:"/update",
+						type:"POST",
+						contentType: "application/json",
+						data:JSON.stringify(data),
+						success:function(data){
+							 console.log(JSON.parse(data));
+							 var myVal = JSON.parse(data);
+							 var myKey = myVal.key;
+							 
+							
+							 
+							/*  var val = $("#record").val();
+							 
+							 var myList = '<li id='+val+'><label>'+val+'</label><button id='+val+' class="destroy"></button></li>';
+							$('.todo-list').append(myList); */
+							/* $('.'+myKey+' >input').hide();
+							$('#'+myKey+' h5').html(myVal.data);
+							$('#'+myKey+'').show(); */
+							 
+							
+							 
+								
+							
+								
+							
+						}
+				   
+				});  
+				}
+		    
+	});
+			
+			
+			
+		}
 		
 		
 	
