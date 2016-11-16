@@ -1,6 +1,6 @@
 <%@ page contentType="text/html; charset=UTF-8"%>
 
-<html>
+<html><head>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
 	  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 	
@@ -9,7 +9,34 @@
 
 <link href="Style.css" rel="stylesheet" type="text/css" media="all" />
 <link href="Base.css" rel="stylesheet" type="text/css" media="all" />
+<div class="navbar navbar-inverse" >
+    
+    <div class="nav navbar-nav ">
+    <form  name="logout" method="post"  action="/logout" >
+      <li><a href="#"><span type="submit"class="glyphicon glyphicon-user"></span> logout</a></li>
+      <li><a href="#"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+    </form></div>
+    
+</div>
+  
+</head>
+   <%
+		if (session != null) {
+			if (session.getAttribute("email") != null) {
+				String name = (String) session.getAttribute("email");
+
+				out.print("Hello, " + name + "  Welcome to ur Profile");
+			} else {
+				response.sendRedirect("../list.jsp");
+			}
+		}
+	%>
 <style>
+
+.navtodo{
+padding: 50px 30px 50px 80px;
+
+}
 
 .todo-list li {
 	display: table;
@@ -46,7 +73,9 @@ ul.todo-list {
 h5 {
 	margin: 0px;
 	padding: 0px;
-	    color: white;
+	    color: black;
+	        font-size: 21px;
+	    
 	
 }
 
@@ -62,21 +91,13 @@ input.inputRecord {
 	width: 350px;
 	font-size: 20px;
 	}
-	body{
-	    padding: 126px 93px 35px 74px;
-	    
 
-body {
-    padding: 126px 93px 35px 74px;
-  
-}
-	}
 	ul.todo-list{
 	    font-size: 20px;
     font-style: italic;
 }
 	body{
-	 background-image: url("bg.jpg");
+	 background-image: url("hnck7801.jpg");
 	 }
 	.dropbtn {
     background-color: #4CAF50;
@@ -116,39 +137,28 @@ body {
 .dropdown:hover .dropbtn {
     background-color: #3e8e41;
 }
-
-a {
-    color: #0000e6;
+.container{
+  width: 500px;
+    margin: auto;
 }
-
 </style>
-<head>
 
 
-<nav class="navbar ">
-    
-    <ul class="nav navbar-nav">
-      
-    </ul>
-    <ul class="nav navbar-nav navbar-right">
-      <li><a href="#"><span class="glyphicon glyphicon-user"></span> Logout</a></li>
-      <li><a href="#"><span class="glyphicon glyphicon-log-in"></span> Add New list</a></li>
-    </ul>
-</nav>
-  
-</head>
+
+
+
 <body>
 
 
 	<section id="main" data-module="list">
 
-		<div>
+		<div class="container">
 			<input class="toDoInput" type="textfield"
 				style="padding: 20px; width: 100%; font-size:20px"></input>
-		</div>
+		
 		<ul class="todo-list">
 		</ul>
-
+	</div>
 	</section>
 
 	<script>

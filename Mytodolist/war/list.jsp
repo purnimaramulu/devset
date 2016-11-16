@@ -1,77 +1,33 @@
 <%@ page contentType="text/html; charset=UTF-8"%>
 
-<html>
-<head onload="/hello">
+<html><head>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
+	  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 	
 	
-</head>
-<meta charset="utf-8" />
-<meta http-equiv="X-UA-Compatible" content="IE=edge" />
-<title>T3 • TodoNotMVC</title>
+	
+
 <link href="Style.css" rel="stylesheet" type="text/css" media="all" />
 <link href="Base.css" rel="stylesheet" type="text/css" media="all" />
+<div class="navbar navbar-inverse" >
+    
+    <div class="nav navbar-nav ">
+    <form  name="logout" method="post"  action="/logout" >
+      <li><a href="#"><span type="submit"class="glyphicon glyphicon-user"></span> logout</a></li>
+      <li><a href="#"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+    </form></div>
+    
+</div>
+  
+</head>
+ 
 <style>
-/* .toDoInput{
-      		font-size: 24px;
-      	}
-		.todo-list {
-	    	margin: 0;
-	    	padding: 0;
-	    	list-style: none;
-		}
-		.todo-list li {
-		    position: relative;
-		    font-size: 24px;
-		    border-bottom: 1px solid #ededed;
-		}
-		.todo-list li label {
-		    white-space: pre-line;
-		    word-break: break-all;
-		    padding: 10px 10px;
-		    margin-left: 45px;
-		    display: block;
-		    line-height: 1.2;
-		    transition: color 0.4s;
-		    background-color: #fff;
-		    margin-left: 0px;
-		}
-		/* .todo-list li .destroy {
-		    display: block;
-		    position: absolute;
-		    top: 0;
-		    right: 10px;
-		    bottom: 0;
-		    width: 40px;
-		    height: 40px;
-		    margin: auto 0;
-		    font-size: 30px;
-		    color: #cc9a9a;
-		    margin-bottom: 11px;
-		    transition: color 0.2s ease-out;
-		}
-		button {
-    margin: 0;
-    padding: 0;
-    border: 0;
-    background: none;
-    font-size: 100%;
-    vertical-align: baseline;
-    font-family: inherit;
-    font-weight: inherit;
-    color: inherit;
-    -webkit-appearance: none;
-    appearance: none;
-    -webkit-font-smoothing: antialiased;
-    -moz-font-smoothing: antialiased;
-    font-smoothing: antialiased;
+
+.navtodo{
+padding: 50px 30px 50px 80px;
+
 }
-.todo-list li .destroy:after {
-    content: '×';
-}
-button, input[type="checkbox"] {
-    outline: none;
-} */
+
 .todo-list li {
 	display: table;
 	position: relative;
@@ -108,6 +64,8 @@ h5 {
 	margin: 0px;
 	padding: 0px;
 	    color: white;
+	        font-size: 21px;
+	    
 	
 }
 
@@ -122,38 +80,88 @@ input.inputRecord {
 	height: 50px;
 	width: 350px;
 	font-size: 20px;
+	color:black
 	}
-	body{
-	    padding: 126px 93px 35px 74px;
-	    
 
-body {
-    padding: 126px 93px 35px 74px;
-  
-}
-	}
 	ul.todo-list{
 	    font-size: 20px;
     font-style: italic;
 }
 	body{
-	 background-image: url("bg.jpg");
+	 background-image: url("hnck7801.jpg");
 	 }
-	
+	.dropbtn {
+    background-color: #4CAF50;
+    color: white;
+    padding: 16px;
+    font-size: 16px;
+    border: none;
+    cursor: pointer;
+}
 
+.dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #f9f9f9;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+}
+
+.dropdown-content a {
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+}
+
+.dropdown-content a:hover {background-color: #f1f1f1}
+
+.dropdown:hover .dropdown-content {
+    display: block;
+}
+
+.dropdown:hover .dropbtn {
+    background-color: #3e8e41;
+}
+.container{
+  width: 500px;
+    margin: auto;
+}
+label {
+    padding: 23px 30px 0px 9px;
+        font-weight: 500;
+    
+}
+button.destroy {
+width:23px 30px 0px 9px;
+}
+span.delete {
+    margin-top: 21px;
+    padding-left: 299px;
+}
 </style>
-</head>
+
+
+
+
+
 <body>
+
 
 	<section id="main" data-module="list">
 
-		<div>
+		<div class="container">
 			<input class="toDoInput" type="textfield"
 				style="padding: 20px; width: 100%; font-size:20px"></input>
-		</div>
+		
 		<ul class="todo-list">
 		</ul>
-
+	</div>
 	</section>
 
 	<script>
@@ -172,7 +180,7 @@ body {
 		                    var object = jsonData[i]; //You are in the current object
 		                    htmlElement += '<li>'
 		                    +'<div id='+object.key+' class="elements"><h5>'+object.data+'</div>'
-		                    +'<div class='+object.key+' myVal='+object.key+' id="input" hidden><input value='+object.data+' class="inputRecord"  type="text"/></div>'
+		                    +'<div class='+object.key+' myVal='+object.key+' id="input" hidden><input value='+object.data+' class="inputRecord"  id="record"type="text"/></div>'
 		                    +'<div class="elements-btn"><span  class="destroy" id='+object.key+'>Delete</span></div>'
 		                    +'<div class="elements-btn"><span id='+object.key+' class="editRecord" id='+object.key+'>Edit</span></div>'
 		                    +'</li>';
@@ -202,13 +210,15 @@ body {
 						$('.inputRecord').keypress(function(e) {
 							var keycode = (event.keyCode ? event.keyCode : event.which);
 							if(keycode == "13"){
-							
+							console.log($(e.currentTarget));
 							  var data = {};
 							
 							  data.key = $(e.currentTarget).parent().attr('myVal');
-							  data.data = $(".inputRecord").val();
- 								
- 							 console.log(data);
+							  data.data = $(e.currentTarget).val();
+							 
+							  $(this).hide();
+							  $('#'+data.key).show();
+							  $('#'+data.key+'> h5').text(data.data);
 							   
 							   $.ajax({
 									url:"/update",
@@ -216,8 +226,26 @@ body {
 									contentType: "application/json",
 									data:JSON.stringify(data),
 									success:function(data){
-										alert(data);
-
+										 console.log(JSON.parse(data));
+										 var myVal = JSON.parse(data);
+										 var myKey = myVal.key;
+										 
+										
+										 
+										/*  var val = $("#record").val();
+										 
+										 var myList = '<li id='+val+'><label>'+val+'</label><button id='+val+' class="destroy"></button></li>';
+										$('.todo-list').append(myList); */
+										/* $('.'+myKey+' >input').hide();
+										$('#'+myKey+' h5').html(myVal.data);
+										$('#'+myKey+'').show(); */
+										 
+										
+										 
+											
+										
+											
+										
 									}
 							   
 							});  
@@ -246,9 +274,18 @@ body {
 				//	});
 			
 				/* }}); */
-			$( ".toDoInput" ).keypress(function(event) {
+		
 				
 			
+			});
+			
+		
+		
+		
+		
+		$( ".toDoInput" ).keypress(function(event) {
+				
+				
 				var keycode = (event.keyCode ? event.keyCode : event.which);
 				if(keycode == "13"){
 				
@@ -266,7 +303,7 @@ body {
 						
 					});
 					
-					var myList = '<li id='+val+'><label>'+val+'</label><button id='+val+' class="destroy"></button></li>';
+					var myList = '<li id='+val+'><label>'+val+'</label><span id='+val+' class="editRecord">Edit</span><span id='+val+'  class="delete">Delete</span></li>';
 					$('.todo-list').append(myList);
 					$('.toDoInput').val(""); 
 					
@@ -275,13 +312,17 @@ body {
 
 				}
 				
+					$('.delete').click(function(e){
+						alert();
+						$(e.currentTarget).parent().remove();					 
+				   
+				});
+				
+			
 				
 				});
-			 
-			
-			});
 		
-	
+		
 	
 	</script>
 </body>
