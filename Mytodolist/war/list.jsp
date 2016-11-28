@@ -180,7 +180,7 @@ span.delete {
 		                    htmlElement += '<li>'
 		                    +'<div id='+object.key+' class="elements"><h5>'+object.data+'</div>'
 		                    +'<div class='+object.key+' myVal='+object.key+' id="input" hidden><input value='+object.data+' class="inputRecord"  id="record"type="text"/></div>'
-		                    +'<div class="elements-btn"><span  class="destroy" id='+object.key+'>Delete</span></div>'
+		                    +'<div class="elements-btn"><input type="image" src="WEB-INF/hnck7801.jpg" class="destroy" id='+object.key+'></input></div>'
 		                    +'<div class="elements-btn"><span id='+object.key+' class="editRecord" id='+object.key+'>Edit</span></div>'
 		                    +'</li>';
 		                    
@@ -194,23 +194,6 @@ span.delete {
 				
 			});
 
-		/* 	$( "#input" ).keypress(function(event) {
-				
-			
-				var keycode = (event.keyCode ? event.keyCode : event.which);
-				if(keycode == "13"){
-					alert($("#input"); */
-					/* var val = $(".toDoInput").val();
-					$.ajax({
-						url:"/addsave",
-						data:"data="+val,
-						sucess:function(data){
-							alert(data);
-						}
-						 */
-				//	});
-			
-				/* }}); */
 		
 				
 			

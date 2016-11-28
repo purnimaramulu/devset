@@ -47,9 +47,9 @@ public class LoginController {
 		String email = request.getParameter("email");
 
 		String password = request.getParameter("password");
-		HttpSession session = request.getSession(true);
-		session.setAttribute("email", email);
-		session.setAttribute("password", password);
+		
+	     HttpSession session = request.getSession(true);
+		 session.setAttribute("email", email);
 
 
 
@@ -82,7 +82,7 @@ public class LoginController {
 
 	@RequestMapping(value = "/addsave", method = RequestMethod.POST)
 	
-	public @ResponseBody String save(HttpServletRequest request, HttpServletResponse response) throws IOException {
+	public @ResponseBody String save(HttpServletRequest request, HttpServletResponse response,HttpSession session) throws IOException {
 
 		
 		
@@ -90,19 +90,8 @@ public class LoginController {
 		
 		String data = (String) request.getParameter("data");
 		System.out.println(" data" + data);
-
-//		URL obj = new URL("http://localhost:8080/");
-//		URLConnection conn = obj.openConnection();
-//
-//		//get all headers
-//		Map<String, List<String>> map = conn.getHeaderFields();
-//		for (Map.Entry<String, List<String>> entry : map.entrySet()) {
-//			System.out.println("Key : " + entry.getKey());
-//		}
-//
-//		//get header by 'key'
-//		String server = conn.getHeaderField("Server");
-//		
+		
+		
 		
 		
 	       
@@ -138,22 +127,7 @@ public class LoginController {
 
 		return ret;
 
-		// try {
-		// results = (List<ToDoList>) q.execute();
-		// if (results.size() > 0) {
-		// // good for listing
-		// Gson gson = new Gson();
-		// output = gson.toJson(results);
-		// }
-		// }catch(Exception e) {
-		// e.printStackTrace();
-		// return output;
-		// }
-		// finally {
-		// q.closeAll();
-		// pm.close();
-		// }
-		// return output;
+		
 
 	}
 
@@ -213,29 +187,11 @@ public class LoginController {
 
 	}
 
-//
-//	@RequestMapping(value = "/delete", method = RequestMethod.POST)
-//	public @ResponseBody String destroy(@RequestParam long key, HttpServletRequest request, ModelMap model) {
-//		System.out.print("deleting");
-//		PersistenceManager pm = PMF.get().getPersistenceManager();
-//
-//		try {
-//
-//			ToDoList c = pm.getObjectById(ToDoList.class, key);
-//			pm.deletePersistent(c);
-//
-//		} finally {
-//			pm.close();
-//		}
-//
-//		// return to list
-//		return "deleted";
-//
-//	}
 	 @RequestMapping(value="/logout", method = RequestMethod.POST)
      public String logout(HttpServletRequest request,HttpSession session ) {
+
+session.removeAttribute("email");
 		 System.out.println("sessions");
-		 
         session.invalidate();
         return "hello";
      }

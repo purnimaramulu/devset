@@ -26,24 +26,7 @@
 	</form>
 
 </div>
-<script>
-	/* 
-	 function checkEmail() {
-	
-	
-	
 
-	 if("admin".equals(email)&&"admin".equals(password))      {
-	 alert('valid Email Address');
-	 window.open("/list.jsp");
-	
-	 }
-	 else{
-	 return "/hello.jsp";
-	 }
-
-
-	 } */
 </script>
 
 <div class="gradient"></div>

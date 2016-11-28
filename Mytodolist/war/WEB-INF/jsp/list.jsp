@@ -14,6 +14,7 @@
     <div class="nav navbar-nav ">
     <form  name="logout" method="post"  action="/logout">
      <button name="subject" type="submit" value="logout" class="button">logout</button>
+
     </form></div>
     
 </div>
@@ -182,6 +183,13 @@ span.delete {
     margin-top: 21px;
     padding-left: 299px;
 }
+.container {
+    position: absolute;
+       
+    
+    padding: 56px;
+}
+}
 </style>
 
 
@@ -219,8 +227,8 @@ span.delete {
 		                    htmlElement += '<li>'
 		                    +'<div id='+object.key+' class="elements"><h5>'+object.data+'</div>'
 		                    +'<div class='+object.key+' myVal='+object.key+' id="input" hidden><input value='+object.data+' class="inputRecord"  id="record"type="text"/></div>'
-		                    +'<div class="elements-btn"><span  class="destroy" id='+object.key+'>Delete</span></div>'
-		                    +'<div class="elements-btn"><span id='+object.key+' class="editRecord" id='+object.key+'>Edit</span></div>'
+		                    +'<div class="elements-btn"><input  class="destroy" type="image" src="images.jpeg" width="25" height="25" id='+object.key+'></input></div>'
+		                    +'<div class="elements-btn"><input id='+object.key+' type="image" src="images.png"class="editRecord" width="25" height="25" id='+object.key+'></input></div>'
 		                    +'</li>';
 		                    
 		                }
@@ -275,12 +283,12 @@ span.delete {
 						success:function(data){
 							console.log("i am here");
 							var myData = JSON.parse(data);
-							alert(data);
+						
 						   var htmlElement = '<li>'
 				                    +'<div id='+myData.key+' class="elements"><h5>'+myData.data+'</div>'
 				                    +'<div class='+myData.key+' myVal='+myData.key+' id="input" hidden><input value='+myData.data+' class="inputRecord"  id="record"type="text"/></div>'
-				                    +'<div class="elements-btn"><span  class="destroy" id='+myData.key+'>Delete</span></div>'
-				                    +'<div class="elements-btn"><span id='+myData.key+' class="editRecord" id='+myData.key+'>Edit</span></div>'
+				                    +'<div class="elements-btn"><input  class="destroy"  type="image" src="images.jpeg" width="25" height="25"  id='+myData.key+'></input></div>'
+				                    +'<div class="elements-btn"><input class="editRecord" id='+myData.key+' type="image" src="images.png"  width="25" height="25" class="editRecord" id='+myData.key+'></input></div>'
 				                    +'</li>';
 							$('.todo-list').append(htmlElement);
 							$('.toDoInput').val(""); 
